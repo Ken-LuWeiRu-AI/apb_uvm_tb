@@ -1,5 +1,5 @@
 # APB UVM Verification Project
-
+run in EDA playground : https://www.edaplayground.com/x/hW8T
 A minimal-yet-complete UVM verification environment for a simple APB slave DUT.
 This project demonstrates a typical UVM structure:
 **sequence → sequencer → driver → interface → DUT**, with a **monitor → ref_model → scoreboard** checking path.
