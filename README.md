@@ -3,6 +3,45 @@ run in EDA playground : https://www.edaplayground.com/x/hW8T
 A minimal-yet-complete UVM verification environment for a simple APB slave DUT.
 This project demonstrates a typical UVM structure:
 **sequence → sequencer → driver → interface → DUT**, with a **monitor → ref_model → scoreboard** checking path.
+## Structure
+
+```
+┌──────────────────────────────────────────────────┐
+│   Top                                            │
+│┌───────────────────────────────────────────────┐ │
+││  Test                                         │ │
+││┌───────────────────────────────────────────┐  │ │
+│││ Env                                       │  │ │
+│││┌────────────────────┐                     │  │ │
+││││ Agent              │   ┌───────────────┐ │  │ │
+││││                    │   │Reference Model│ │  │ │
+││││┌──────────┐        │   └─▲──────┬──────┘ │  │ │
+│││││ Sequencer│        │   ┌─┼──────▼─┐      │  │ │
+│││││┌────────┐│        │   │ScoreBoard│      │  │ │
+││││││Sequence││        │   └─▲────────┘      │  │ │
+│││││└───┬────┘│        │     │   ┌──────────┐│  │ │
+│││││    │     │        │     │   │Coverage  ││  │ │
+││││└────┼─────┘        │     ├───►Subscriber││  │ │
+││││┌────▼────┐┌───────┐│     │   └──────────┘│  │ │
+│││││ Driver  ││Monitor┼┼─────┘               │  │ │
+││││└────┬────┘└──▲────┘│                     │  │ │
+│││└─────┼────────┼─────┘                     │  │ │
+││└──────┼────────┼───────────────────────────┘  │ │
+│└───────┼────────┼──────────────────────────────┘ │
+│        │        │                                │
+│   ┌────▼────────┘AXI_if───────────────┐          │
+│   │ Read Address:   AR*               │          │
+│   │ Read Data:      A                 │          │
+│   │ Write Address:  AW*               │          │
+│   │ Write Data:     W                 │          │
+│   │ Write Response: B*                │          │
+│   └────┬─────────────────▲────────────┘          │
+│    ┌───▼─────────┐     ┌─┼─────────┐             │
+│    │DUV:         │     │Clock/Reset│             │
+│    │axi_mem_slave│     │Generator  │             │
+│    └─────────────┘     └───────────┘             │
+└──────────────────────────────────────────────────┘
+```
 
 ## Features
 - APB master UVM agent (active/passive configurable)
